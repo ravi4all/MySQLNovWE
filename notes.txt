@@ -1,0 +1,62 @@
+Store Data Somewhere
+
+- Flat File System
+  - No Data Recovery
+  - File Corrupt
+  - Duplicacy of Data
+  - No Data Back up
+
+DBMS - Database Management System
+
+Types of DBMS
+- Object-Oriented
+- Network Database
+- Relational Database
+- Hierarchical Database
+- Cloud Database
+---------------------------------------------------------------------
+Relational DBMS
+- collection of relations
+- relation is nothing but a table that contains rows (tuple) and columns (attribute/field)
+
+
+
+Relational Integrity Constraint
+- Domain Constraint
+- Key Constraint
+- Referential Integrity Constraint
+
+
+
+Database Architecture
+- 1-Tier
+- 2-Tier
+- 3-Tier
+
+Database Development Life Cycle
+- Requirement Analysis
+- Database Designing
+- Implementation
+
+
+Database Design Techniques
+- Normalization
+  - that helps to reduce data redundancy and eliminates anamolies like insertion, updation, deleteion
+  - Normal Forms - 1NF, 2NF, 3NF, BCNF, 4NF, 5NF 6NF
+- ER-Modeling
+
+Keys
+- Composite Key
+- Primary Key
+- Foreign Key
+- Super Key
+- Unique Key
+
+
+
+
+
+
+
+
+
