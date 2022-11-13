@@ -39,6 +39,52 @@ Database Development Life Cycle
 - Implementation
 
 
+Functional Dependency
+{A} -> {B}
+
+e_id -> e_name
+{e_id, e_dept} -> {e_working_location}
+
+- Multivalued Dependency
+
+e_dept -> e_name
+e_dept -> e_location
+
+
+Partial Dependency
+- if any of the subset of candidate key determines non-prime attribute, then it is called partial dependency
+
+e_id		e_dept		salary
+101		IT				45000
+102		HR			56000
+103		IT				45000
+104		IT				50000
+
+candidate key - {e_id, e_dept}
+e_dept -> salary
+
+
+(A,B,C,D)
+AB -> C
+BC -> D
+
+
+
+
+- Transitive Dependency
+
+Designation		Name			Age
+CE0					John			34
+CTO					Shawn		37
+Manager				Mac			30
+
+{Deisgnation} -> {Name}
+{Name} -> {Age}
+{Designation} -> {Age}
+
+
+
+
 Database Design Techniques
 - Normalization
   - that helps to reduce data redundancy and eliminates anamolies like insertion, updation, deleteion
@@ -51,6 +97,15 @@ Keys
 - Foreign Key
 - Super Key
 - Unique Key
+----------------------------------------------------------
+
+SQL - language of RDBMS
+ - Structured Query Language
+  - standardized language used to acess the database
+ANSI/SQL
+
+MySQL
+- DBMS that allows you to manage relational database
 
 
 
