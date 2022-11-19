@@ -1,0 +1,48 @@
+Queries
+------------------------------------------------------------------------------------------------------------------------------
+Database Operations
+
+SELECT database();
+SHOW databases;
+USE db_name;
+Create Database
+SYNTAX : CREATE DATABASE [IF NOT EXISTS] emp_management [CHARACTER SET charset_name] [COLLATE collation_name];
+
+show character set;
+SHOW CHARACTER SET LIKE 'utf%';
+show collation like 'latin1%';
+
+SET @str = CONVERT('Hello World' USING utf8);
+SELECT LENGTH(@str), CHAR_LENGTH(@str);
+
+
+I18N - Internationalization
+
+Drop Database
+SYNTAX : DROP DATABASE [IF EXISTS] db_name;
+DROP SCHEMA [IF EXISTS] db_name;
+------------------------------------------------------------------------------------------------------------------------------
+Table Operations
+
+- SHOW tables - list all tables available in database
+
+Create Table Query
+SYNTAX : CREATE TABLE [IF NOT EXISTS] table_name (col col_definition, col col_definition...., table_constraints) ENGINE = storage_engine;
+
+col_definition - data_type(length) [NOT NULL] [DEFAULT VALUE] [AUTO_INCREMENT] col_constraint
+
+CREATE TABLE IF NOT EXISTS projects (project_id INT AUTO_INCREMENT PRIMARY KEY, project_name VARCHAR(255) NOT NULL, start_date DATE, status VARCHAR(255), number_of_emp TINYINT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=INNODB;
+
+
+Storage Engines in MySQL
+- MyISAM (Upto 256TB data could be stored)
+- InnoDB  (by default used by MySQL, Upto 64TB data could be stored, ACID and transactions are fully supported)
+- Merge
+- Heap
+- CSV
+- FEDERATED
+
+Query : SHOW engines;
+
+
+
