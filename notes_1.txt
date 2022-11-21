@@ -1,0 +1,293 @@
+Database Design
+
+- Logical
+- Physical
+
+Database Development Life Cycle
+- Requirement Analysis
+  - Planning
+  - System definition
+- Database Design
+  - Logical Model
+  - Physical Model
+- Implementation
+  - Loading and Testing
+
+2 types of database techniques
+- Normalization
+  - 1NF - each cell must contain single value
+  - 2NF - it must be in 1NF, there should be a primary key
+  - 3NF - it must be in 2NF, has no transitive functional dependencies
+  - BCNF - Boyce-Codd NF / 3.5NF
+
+- ER Modeling - Entity Relationship
+
+=====================================
+
+MySQL
+
+- Database Handling
+
+Check current database in which we are present
+- SELECT database();
+
+Create Database Syntax
+- CREATE DATABASE db_name;
+
+- CREATE DATABASE [IF NOT EXISTS] database_name [CHARACTER SET charset_name] [COLLATE collation_name] ENCRYPTION = {'Y' | 'N'}
+
+
+How to check length and memory taken by each character ?
+
+SET @str = CONVERT('Hello World' USING utf8);
+SELECT LENGTH(@str), CHAR_LENGTH(@str);
+
+==================================================
+How to check if a table exists in MySQL ?
+
+- SELECT * FROM information_schema.tables WHERE table_schema = "db_name" AND table_name = "table_name" LIMIT 1;
+
+==================================================
+Create Table
+- CREATE TABLE [IF NOT EXISTS] table_name (col_name data_type, col_name data_type... table_constraints) ENGINE = storage_engine;
+
+col_name data_type(length) [Not Null] [Default Value] [Auto_Increment] col_constraint
+
+
+CREATE TABLE IF NOT EXISTS books (book_id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, author VARCHAR(255), status TINYINT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS users (user_id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), city VARCHAR(255));
+
+CREATE TABLE IF NOT EXISTS books_issue (issue_id INT, book_id INT, user_id INT, issue_date DATE, due_date DATE, is_returned BOOLEAN NOT NULL DEFAULT FALSE, PRIMARY KEY (issue_id), FOREIGN KEY (book_id) REFERENCES books (book_id), FOREIGN KEY (user_id) REFERENCES users (user_id));
+
+
+Foreign Key
+Foreign Key [col_name] REFERENCES parent_table (col_name)
+[ON DELETE ref_option]
+[ON UPDATE ref_option]
+
+
+CASCADE - value of matching rows in child table automatically gets deleted/updated
+SET NULL - value of matching rows will be set as NULL
+RESTRICT - rejects the deletion/updation on rows in parent table
+NO ACTION - same as RESTRICT
+SET DEFAULT - this action is rejected by InnoDB
+
+
+CREATE TABLE IF NOT EXISTS books_issue (issue_id INT, book_id INT, user_id INT, issue_date DATE, due_date DATE, is_returned BOOLEAN NOT NULL DEFAULT FALSE, PRIMARY KEY (issue_id), FOREIGN KEY (book_id) REFERENCES books (book_id), FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE);
+
+
+Table Operations
+- Rename Table
+ SYNTAX : RENAME TABLE old_table_name TO new_table_name
+ Query : RENAME TABLE books_issue TO issued_books;
+
+- Add New Column
+ SYNTAX : ALTER TABLE table_name ADD new_col_name col_defintion [FIRST | AFTER col_name]
+ ALTER TABLE books ADD quantity INT NOT NULL AFTER status;
+
+- Modify Column
+ SYNTAX : ALTER TABLE table_name MODIFY col_name col_def;
+ ALTER TABLE books MODIFY quantity SMALLINT NOT NULL;
+
+- Rename Column
+ SYNTAX : ALTER TABLE table_name CHANGE COLUMN orig_col_name new_name col_definition
+ ALTER TABLE books CHANGE COLUMN created_at stored_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP; 
+
+DROP Column
+ SYNTAX : ALTER TABLE table_name DROP COLUMN col_name;
+ 
+DELETE Table
+- deletes data row by row
+
+TRUNCATE Table
+- more efficient than delete table, because it drops the table and recreate empty table
+
+Storage Engine
+- InnoDB  - 64 TB
+- MyISAM - 256 TB
+- CSV
+
+Data Types
+- Numeric
+	- Integral
+	  - tinyint				- 1 Byte		-128 to 127
+	  - smallint				- 2 Bytes		-32768 to 32767
+	  - mediumint			- 3 Bytes
+	  - int						- 4 Bytes
+	  - bigint					- 8 Bytes
+ 	- Floating Point
+	  - Float					- 4 Bytes
+	  - Double				- 8 Bytes
+	  - Decimal				- It varies
+
+- Text/String
+  - Char			- fixed length character string
+  - Varchar		- variable length
+  - TinyText		- 255 Bytes - 255 Character
+  - Text			- 64 KB (65,535)
+  - MediumText	- 16 MB
+  - LongText	- 4 GB
+  - Binary
+  - TinyBlob 
+  - Blob (Binary Large Object)
+  - Medium Blob
+  - LongBlob
+
+- Boolean - MySQL donot have Boolean data type, so we take TinyInt(1)
+- Date and Time
+	- Date
+	- Time
+	- DateTime		- 1000-01-01 00:00:01 to 9999-12-31 23:59:59
+	- TimeStamp	- 1970-01-01 00:00:01 to 2038-01-19 03:14:07
+
+====================================================
+Insert Data
+
+SYNTAX : INSERT INTO table_name (c1, c2, c3...cn) VALUES (v1, v2, v3...), (v1, v2...);
+SYNTAX : INSERT INTO table_name VALUES (v1, v2, v3...), (v1, v2...);
+
+INSERT INTO books (book_id, title, author, status, quantity) VALUES (101, "Python Programming", "XYZ", 1,10);
+INSERT INTO books (title, author, status, quantity) VALUES ("Let Us C", "John", 1,5);
+
+INSERT INTO books (title, author, status, quantity) VALUES ("Head First Python", "OReilly", 1,3), ("Head First Java", "OReilly", 1,19), ("Head First Javascript", "OReilly", 1,7), ("Speaking JS", "MDN", 1,3);
+
+
+Insert Multiple Row Limit
+SHOW VARIABLES LIKE 'max_allowed_packet';
+
+Set Size Limit
+SET GLOBAL max_allowed_packet=10000;
+
+
+Insert Into Select
+SYNTAX : INSERT INTO table_name(col_list) SELECT select_col_list FROM another_table WHERE condition;
+
+
+Insert Ignore
+SYNTAX : INSERT IGNORE INTO table_name (col_list) VALUES (col_list)
+
+
+INSERT IGNORE INTO books (book_id, title, author, status, quantity) VALUES (107,"Head First Python", "OReilly", 1,3), (108,"Head First Java", "OReilly", 1,19), (103,"Head First Javascript", "OReilly", 1,7), (104,"Speaking JS", "MDN", 1,3);
+
+=====================================================
+
+SELECT Query
+SYNTAX : SELECT col_list FROM table_name;
+
+SELECT * from books;
+
+SELECT 1+1;
+SELECT CONCAT("Ram"," ","Sharma");
+SELECT CONCAT("Ram"," ","Sharma") as "full name";
+
+Unique Rows
+Syntax : SELECT DISTINCT col_list FROM table_name;
+
+SELECT DISTINCT title, quantity from books;
+
+=====================================================
+
+Sorting Rows - ORDER BY
+SYNTAX : SELECT col_list FROM table ORDER BY [ASC|DESC];
+Query Execution Sequence - FROM -> SELECT -> ORDER BY
+
+SELECT title, quantity, stored_at from books ORDER BY quantity desc;
+SELECT title, quantity, stored_at from books ORDER BY quantity desc, title asc;
+
+=====================================================
+Where Clause
+- to filter data
+
+SYNTAX : SELECT * FROM table_name WHERE filter_condition;
+FROM -> WHERE -> SELECT
+
+SELECT * FROM books WHERE quantity >= 10;
+
+Keywords / Operators
+AND
+OR
+IN
+BETWEEN
+LIKE
+LIMIT
+
+
+AND Operator
+SELECT * FROM books WHERE quantity >= 10 AND author = "OReilly";
+
+OR Operator
+SELECT * FROM books WHERE quantity >= 10 OR author = "OReilly";
+
+AND + OR
+SELECT * FROM books WHERE author = "OReilly" and (quantity >= 10 or stored_at > '2022-11-15 20:00:00');
+
+SELECT * FROM books WHERE author = "OReilly" or author = "XYZ" or author = "John";
+
+Alternative for OR - IN Operator
+SELECT * FROM books WHERE author IN ("OReilly", "XYZ", "John");
+
+
+BETWEEN
+SELECT * FROM books WHERE quantity BETWEEN 5 AND 10;
+
+SELECT * FROM books WHERE quantity NOT BETWEEN 5 AND 10;
+
+SELECT * FROM books WHERE stored_at BETWEEN CAST('2022-11-01 20:00:00' AS DATETIME) AND CAST('2022-11-15 21:00:00' AS DATETIME);
+
+
+Limit Number of Rows
+SYNTAX : SELECT col_list FROM table_name LIMIT [offset, ] row_count;
+
+
+SELECT * FROM books LIMIT 5;
+
+Find books with highest quantity.
+Find books with second highest quantity.
+Find books with nth highest quantity.
+
+SELECT col_list FROM table_name ORDER BY col LIMIT n-1, 1;
+
+Find highest salary of employee.
+Find second highest salary of employee.
+Find Nth highest salary of employee.
+
+
+
+LIKE Operator
+- used for pattern matching
+
+Wildcard
+% wildcard
+_ wildcard
+
+a%			- starts with a
+%a			- ends with a
+%a%		- contains a
+
+a_		- matches any string starts with a and followed by any one other charcater
+a__		- matches any string starts with a and followed by any two other charcaters
+
+_a		- matches any string starts with any character and followed by a only
+
+Find names that contains a as middle character...
+_a_ 	- will return those names which contains 3 characters only and mid character is a
+Ram, Aam, Sam...
+
+
+SELECT * FROM books WHERE title LIKE '%python';
+
+SELECT * FROM books WHERE title LIKE '%\_a%';
+
+
+Update Query
+Group By and Having Clause
+
+
+
+
+
+
+
+
+
