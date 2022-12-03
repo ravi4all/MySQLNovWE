@@ -44,5 +44,116 @@ Storage Engines in MySQL
 
 Query : SHOW engines;
 
+CREATE TABLE IF NOT EXISTS employees (emp_id INT AUTO_INCREMENT PRIMARY KEY, emp_name VARCHAR(255), emp_dept VARCHAR(100), emp_salary INT, emp_city VARCHAR(255));
+
+
+
+CREATE TABLE IF NOT EXISTS projectAllocation (project_id INT, emp_id INT, is_active BOOLEAN NOT NULL DEFAULT FALSE, FOREIGN KEY (project_id) REFERENCES projects (project_id) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (emp_id) REFERENCES employees (emp_id) ON UPDATE RESTRICT ON DELETE CASCADE);
+
+
+Foreign Key [col_name] References parent_table (col_name)
+ON UPDATE reference_option
+ON DELETE reference_option
+
+- CASCADE - child table automatically deleted or updated the matching rows
+- SET NULL - child table will set NULL on matchin rows
+- RESTRICT - rejects deletion or updation
+- NO ACTION - same as Restrict
+- SET DEFAULT - 
+
+
+Data Types
+- Numeric
+  - TinyInt 					1 byte					-128 to 127
+  - SmallInt					2 bytes
+  - MediumInt				3 bytes
+  - Int							4 bytes
+  - BigInt						8 bytes
+  - Decimal					varies 
+  - Float						4 bytes
+  - Double					8 bytes
+  - Bit
+
+- Text/String
+  - Char				- fixed length non-binary character
+  - Varchar 			- variable length non-binary character
+  - Binary			- fixed length binary string
+  - VarBinary		- variable length binary string
+  - TinyBlob			- very small Binary Large Object
+  - Blob				- small Blob
+  - MediumBlob	- medium size Blob
+  - LongBlob		- large Blob
+  - TinyText
+  - Text
+  - MediumText
+  - LongText
+
+
+- Date and Time
+  - Date
+  - Time
+  - DateTime		1000-01-01 00:00:00  to  9999-12-31 23:59:59
+  - TimeStamp		1970-01-01 00:00:01  to  2038-12-31 03:14:07
+  - Year
+
+
+
+Decimal Example
+col_name DECIMAL(P,D)
+P - Precision - number of significant digits (1 to 65)
+D - Decimal Point - number of digits after decimal point (0 to 30)
+
+SALARY DECIMAL(6,2)
+-9999.99 to 9999.99
+
+==============================================
+
+Insert Data
+- INSERT INTO table (col_list) VALUES (values);
+- INSERT INTO table (col_list) VALUES (values), (values), (values);
+- INSERT INTO table VALUES (values);
+
+INSERT INTO projects(project_name, start_date, status, number_of_emp) VALUES ('Banking App', '2022-12-12', 'not started', 6);
+INSERT INTO projects VALUES (5, 'Banking App', '2022-05-05', 'finished', 10, '2022-01-01');
+
+==============================================
+
+Alter Table
+- Add a column to a table
+
+SYNTAX : ALTER TABLE table_name ADD new_col col_definition [FIRST | AFTER col_name]
+SYNTAX : ALTER TABLE table_name ADD new_col col_definition [FIRST | AFTER col_name], ADD new_col col_definition [FIRST | AFTER col_name];
+ALTER TABLE employees ADD emp_doj date AFTER emp_salary;
+
+- Drop column from a table
+SYNTAX : ALTER TABLE table_name DROP COLUMN col_name;
+SYNTAX : ALTER TABLE table_name DROP COLUMN col_name, DROP COLUMN col_name;
+ALTER TABLE employees DROP COLUMN emp_doj;
+
+- Modify a column
+SYNTAX : ALTER TABLE table_name MODIFY col_name col_definition;
+ALTER TABLE employees MODIFY emp_name varchar(100) NOT NULL;
+
+- Rename a column
+SYNTAX : ALTER TABLE table_name CHANGE COLUMN prev_name new_name col_definition;
+ALTER TABLE employees CHANGE COLUMN emp_dept emp_department varchar(100) NOT NULL;
+
+SYNTAX : ALTER TABLE table_name RENAME COLUMN prev_name TO new_name;
+ALTER TABLE employees RENAME COLUMN emp_department TO emp_dept;
+
+
+- Rename Table
+SYNTAX : ALTER TABLE table_name RENAME TO new_name;
+
+====================================================
+select * from employees;
+select emp_name, emp_salary, emp_dept from employees;
+select emp_dept from employees;
+select distinct emp_dept from employees;
+
+
+
+
+
 
 
