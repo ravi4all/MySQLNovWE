@@ -151,6 +151,63 @@ select emp_name, emp_salary, emp_dept from employees;
 select emp_dept from employees;
 select distinct emp_dept from employees;
 
+====================================================
+Where Clause
+SYNTAX : SELECT col_list FROM employees WHERE search_condition;
+SELECT * FROM employees WHERE emp_city = "delhi";
+
+Query Execution Flow - FROM -> WHERE -> SELECT
+
+Logical Operators
+- AND
+- OR
+- IN
+- BETWEEN
+
+Comparison Operators
+=, >,<, >=, <=, !=
+
+SELECT * FROM employees WHERE emp_city = "delhi" and emp_dept = "HR";
+SELECT * FROM employees WHERE emp_city != "delhi" and emp_dept = "HR";
+SELECT * FROM employees WHERE emp_city != "delhi" or emp_dept = "HR";
+SELECT * FROM employees WHERE emp_salary > 40000;
+SELECT * FROM employees WHERE emp_salary >= 40000;
+SELECT * FROM employees WHERE emp_salary BETWEEN 40000 AND 50000;
+SELECT * FROM employees WHERE emp_city = "delhi" or emp_city = "pune";
+SELECT * FROM employees WHERE emp_city IN ("delhi", "pune");
+
+====================================================
+
+Sorting Using Order By
+SYNTAX : SELECT * FROM table ORDER BY col [ASC|DESC];
+SELECT * FROM employees ORDER BY emp_salary;
+SELECT * FROM employees ORDER BY emp_salary DESC, emp_name ASC;
+SELECT * FROM employees WHERE emp_city IN ("Delhi","Pune") ORDER BY emp_salary DESC, emp_name ASC;
+
+SELECT * FROM employees ORDER BY emp_name;
+
+====================================================
+
+LIKE Operator
+SYNTAX : SELECT * FROM table WHERE col_name LIKE pattern;
+- wildcard
+
+% (percentage)
+a%			- starts with 'a'
+%a			- ends with 'a'
+%a%		- contains 'a'
+
+SELECT * FROM employees WHERE emp_name LIKE 'r%';
+SELECT * FROM employees WHERE emp_name LIKE '%n';
+SELECT * FROM employees WHERE emp_name LIKE '%a%';
+
+_ (underscore)
+'R_m'	- Name startswith R and endswith m and in between 1 character could be there
+SELECT * FROM employees WHERE emp_name LIKE 'R_m';
+
+
+
+
 
 
 
