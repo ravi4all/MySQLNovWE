@@ -205,10 +205,81 @@ _ (underscore)
 'R_m'	- Name startswith R and endswith m and in between 1 character could be there
 SELECT * FROM employees WHERE emp_name LIKE 'R_m';
 
+===================================================
+
+LIMIT
+SYNTAX : SELECT col_list FROM table_name LIMIT [offset,] row_count;
+
+SELECT * FROM employees LIMIT 1;
+SELECT * FROM employees LIMIT 2, 1;
+
+Max Salary of Employee
+SELECT * FROM employees ORDER BY emp_salary DESC Limit 1;
+
+2nd Max Salary of Employee
+SELECT * FROM employees ORDER BY emp_salary DESC Limit 1, 1;
+
+Nth Max Salary of Employee
+SELECT * FROM employees ORDER BY emp_salary DESC Limit n-1, 1;
+
+
+Pagination
+SELECT * FROM employees LIMIT 10, 10;
+
+========================================
+
+Load CSV File in MySQL
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/emp.csv" INTO TABLE employees FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS;
+
+Load Table Into SQL
+SELECT * FROM table_name INTO OUTFILE "D:/emp.csv" TERMINATED BY ";" LINES TERMINATED BY "\r\n";
+
+========================================
+
+Group By
+
+For Each
+SYNTAX : SELECT col_list FROM table_name GROUP BY col_name;
+SELECT * FROM employees GROUP BY emp_dept;
+
+Aggregate Functions
+- COUNT
+- MIN
+- MAX
+- AVG
+- SUM
+
+Number of employees in each department
+SELECT emp_dept, COUNT(*) number_of_emp FROM employees GROUP BY emp_dept;
+
+Max salary in each department
+SELECT emp_dept, max(emp_salary) emp_salary FROM employees GROUP BY emp_dept;
+
+Avg salary in each department
+SELECT emp_dept, avg(emp_salary) emp_salary FROM employees GROUP BY emp_dept;
+
+Min, Max, Avg, Total
+SELECT emp_dept, min(emp_salary) min_salary, max(emp_salary) max_salary, avg(emp_salary) avg_salary, sum(emp_salary) total_salary FROM employees GROUP BY emp_dept;
+
+Having Clause
+- Using condition after group by
+SELECT emp_dept, avg(emp_salary) avg_salary FROM employees GROUP BY emp_dept HAVING avg_salary > 40000;
+
+Group By and Order By
+SELECT emp_dept, min(emp_salary) min_salary, max(emp_salary) max_salary, avg(emp_salary) avg_salary, sum(emp_salary) total_salary FROM employees GROUP BY emp_dept ORDER BY total_salary DESC;
+
+=================================================
+
+Update Query
+SYNTAX : UPDATE [LOW_PRIORITY] [IGNORE] table_name SET col_name = expr ... [WHERE condition];
+
+UPDATE employees SET emp_dept = "Sales" WHERE emp_id = 5;
+
+=================================================
 
 
 
-
+Joins...
 
 
 
