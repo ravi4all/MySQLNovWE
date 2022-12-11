@@ -1,0 +1,22 @@
+Create Table Books
+Create Table Users
+Create Table IssuedBooks
+
+=========================
+Books Table Schema
+book_id - Int (PK, AutoIncrement, starts from 1)
+book_name - Varchar
+book_author - Varchar
+book_qty - TinyInt
+=========================
+Users Table Schema
+user_id - Int (PK, AutoIncrement, but starts from 101)
+user_name - Varchar
+user_city - Varchar
+=========================
+Issued Books Schema
+book_id - Foreign Key
+user_id - Foreign Key
+issue_date - Date
+is_returned - TinyInt (0 | 1)
+=========================
