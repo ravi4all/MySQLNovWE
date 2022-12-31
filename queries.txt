@@ -316,10 +316,63 @@ SELECT t1.emp_id, t1.emp_name, t1.emp_dept, t2.project_id, t2.is_active from emp
 
 SELECT emp_id, emp_name, emp_dept FROM employees WHERE emp_id IN (SELECT emp_id FROM projectallocation);
 
+SET @num = 0;
+SELECT x, emp_id FROM (SELECT @num := @num + 1 AS x, emp_id FROM employees) e where MOD(e.x, 2) = 0;
+
+=======================================================
+
+Functions
+- Aggregate Functions
+  - MIN, MAX, SUM, AVG, COUNT
+- Control Flow Functions
+  - IF, CASE
+- String Functions
+  - LENGTH, LOWER, UPPER, REPLACE, LEFT, RIGHT, TRIM, LTRIM, RTRIM, SUBSTRING
+- Date Functions
+  NOW, CURDATE, YEAR, MONTH, DAY, WEEK, DATE_ADD, DATE_SUB, DATEDIFF, EXTRACT, DAY, DATE_FORMAT
+- Windows Functions
 
 
 
+IF - To implement conditions
+Syntax : IF (Condition, true, false)
 
+SELECT SUM(IF(status = 'in progress', 1, 0)) AS 'In Progress', SUM(IF(status = 'finished',1,0)) Finished FROM projects;
+
+
+CASE
+Syntax: 
+CASE value
+   WHEN value_1 THEN result_1
+   WHEN value_2 THEN result_2
+   WHEN value_3 THEN result_3
+   [ELSE else_result]
+END
+
+
+SELECT project_name, number_of_emp, CASE number_of_emp WHEN 5 THEN 'Small Size Project' WHEN 7 THEN 'Mid Size Project' WHEN 8 THEN 'Mid Size Project' ELSE 'Large Size Project' end 'Project Size' FROM projects;
+
+
+SELECT project_name, number_of_emp, CASE WHEN number_of_emp <= 6 THEN 'Small Size Project' WHEN number_of_emp > 6 AND number_of_emp <= 10 THEN 'Mid Size Project'  ELSE 'Large Size Project' end 'Project Size' FROM projects;
+
+
+
+String Functions
+SELECT project_name, LENGTH(project_name) from projects;
+SELECT project_name, LOWER(project_name) from projects;
+SELECT project_name, UPPER(project_name) from projects;
+
+SELECT TRIM('   hello world   ');
+SELECT TRIM(LEADING '#' FROM '###hello world....');
+SELECT TRIM(TRAILING '.' FROM 'hello world....');
+
+SubString
+Syntax : SUBSTRING(string, position); | SUBSTRING(string FROM position)
+
+SELECT SUBSTRING("Hello How are you...?", 5);
+SELECT SUBSTRING("Hello How are you...?" FROM 5);
+SELECT SUBSTRING("Hello How are you...?", 4, 10);
+SELECT SUBSTRING("Hello How are you...?" FROM 4 FOR 10);
 
 
 
