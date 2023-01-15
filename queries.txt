@@ -374,7 +374,51 @@ SELECT SUBSTRING("Hello How are you...?" FROM 5);
 SELECT SUBSTRING("Hello How are you...?", 4, 10);
 SELECT SUBSTRING("Hello How are you...?" FROM 4 FOR 10);
 
+===============================================
+Date Functions
+CURDATE
+NOW
+DAY
+YEAR
+MONTH
+WEEK
+WEEKDAY
+DATE_ADD
+DATE_SUB
+DATEDIFF
+EXTRACT
+===============================================
+Windows Functions
+
+SELECT fiscal_year, SUM(sale) FROM sales GROUP BY fiscal_year;
+
+SELECT fiscal_year, sales_empName, sale, SUM(sale) OVER (PARTITION BY fiscal_year) total_sales FROM sales;
+
+SELECT fiscal_year, sales_empName, sale, DENSE_RANK() OVER (PARTITION BY fiscal_year ORDER BY sale DESC) total_sales FROM sales;
+
+SELECT fiscal_year, sales_empName, sale, DENSE_RANK() OVER (ORDER BY sale DESC) total_sales FROM sales;
+
+SELECT fiscal_year, sales_empName, sale, RANK() OVER (ORDER BY sale DESC) total_sales FROM sales;
+
+SELECT fiscal_year, sales_empName, sale, FIRST_VALUE(sales_empName) OVER (ORDER by sale DESC) total_sales FROM sales;
+
+SELECT fiscal_year, sales_empName, sale, FIRST_VALUE(sales_empName) OVER (PARTITION BY fiscal_year ORDER by sale DESC) total_sales FROM sales;
+
+SELECT firstname, dept, salary, NTH_VALUE(firstname, 2) OVER(PARTITION BY dept ORDER BY salary DESC) second_highest_salary FROM employees;
 
 
+LAG
+SELECT fiscal_year, sales_empName, sale, LAG(sale, 1) OVER (PARTITION BY fiscal_year ORDER by sale DESC) total_sales FROM sales;
+
+======================================================
+
+mysql -u ravi -p
+
+grant all privileges on db_1.* to ravi@localhost;
+grant all privileges on db_1.employees to ravi@localhost;
+
+grant SELECT, INSERT, DELETE privileges on db_1.* to ravi@localhost;
+
+drop user user_name;
 
 
